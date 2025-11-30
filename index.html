@@ -35,6 +35,12 @@ h1 {
   padding: 15px;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(100, 80, 55, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(100, 80, 55, 0.3);
 }
 
 .card img {
@@ -61,6 +67,7 @@ h1 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 9999;
 }
 
 #lightbox img {
@@ -85,48 +92,49 @@ h1 {
 
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
-  <p id="lightbox-caption"></p>
+  <p id="lightbox-caption">Southampton, UK</p>
 </div>
 
 <script>
-const images = [
-{ src: "photo1.jpg", caption: "Southampton, UK" },
-  { src: "photo2.jpg", caption: "Southampton, UK" },
-  { src: "photo3.jpg", caption: "Southampton, UK" },
-  { src: "photo4.jpg", caption: "Southampton, UK" },
-  { src: "photo5.jpg", caption: "Southampton, UK" },
-  { src: "photo6.jpg", caption: "Southampton, UK" },
-  { src: "photo7.jpg", caption: "Southampton, UK" },
-  { src: "photo8.jpg", caption: "Southampton, UK" },
-  { src: "photo11.jpg", caption: "Southampton, UK" },
-  { src: "photo12.jpg", caption: "Southampton, UK" },
-  { src: "photo13.jpg", caption: "Southampton, UK" },
-  { src: "photo14.jpg", caption: "Southampton, UK" },
-  { src: "photo15.jpg", caption: "Southampton, UK" },
-  { src: "photo16.jpg", caption: "Southampton, UK" },
-  { src: "photo17.jpg", caption: "Southampton, UK" },
-  { src: "photo18.jpg", caption: "Southampton, UK" },
-  { src: "photo19.jpg", caption: "Southampton, UK" },
-  { src: "photo20.jpg", caption: "Southampton, UK" },
-  { src: "photo21.jpg", caption: "Southampton, UK" },
-  { src: "photo22.jpg", caption: "Southampton, UK" },
-  { src: "photo23.jpg", caption: "Southampton, UK" },
-  { src: "photo24.jpg", caption: "Southampton, UK" },
-  { src: "photo25.jpg", caption: "Southampton, UK" },
-  { src: "photo26.jpg", caption: "Southampton, UK" },
-  { src: "photo27.jpg", caption: "Southampton, UK" },
+// List only the base names (without extensions)
+const rawImages = [
+  "photo1","photo2","photo3","photo4","photo5",
+  "photo6","photo7","photo8","photo11","photo12",
+  "photo13","photo14","photo15","photo16","photo17",
+  "photo18","photo19","photo20","photo21","photo22",
+  "photo23","photo24","photo25","photo26","photo27"
 ];
+
+// Function to check if .jpg exists, else fall back to .JPG
+function resolveImage(name) {
+  const lower = name + ".jpg";
+  const upper = name + ".JPG";
+
+  const img = new Image();
+  img.src = lower;
+
+  return new Promise(resolve => {
+    img.onload = () => resolve(lower);
+    img.onerror = () => resolve(upper);
+  });
+}
 
 const gallery = document.getElementById("gallery");
 
-images.forEach(img => {
-  gallery.innerHTML += `
-    <div class="card" onclick="openLightbox('${img.src}', '${img.caption}')">
-      <img src="${img.src}">
-      <div class="caption">${img.caption}</div>
-    </div>
-  `;
-});
+async function loadGallery() {
+  for (let name of rawImages) {
+    const src = await resolveImage(name);
+
+    gallery.innerHTML += `
+      <div class="card" onclick="openLightbox('${src}', 'Southampton, UK')">
+        <img src="${src}">
+        <div class="caption">Southampton, UK</div>
+      </div>
+    `;
+  }
+}
+
+loadGallery();
 
 function openLightbox(src, caption) {
   document.getElementById("lightbox-img").src = src;
