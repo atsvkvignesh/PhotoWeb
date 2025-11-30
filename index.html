@@ -49,11 +49,16 @@ h1 {
   border: 1px solid #b5aa95;
 }
 
+/* FIX: Long captions now wrap safely */
 .caption {
   margin-top: 10px;
   font-size: 14px;
   font-style: italic;
   color: #5b4f42;
+  word-break: break-all;
+  white-space: normal;
+  line-height: 1.3;
+  text-align: center;
 }
 
 #lightbox {
@@ -96,14 +101,14 @@ h1 {
 </div>
 
 <script>
-// Each image with same caption for now
+// All captions are "Southampton, UK" for now
 const images = [
   { name: "photo1", caption: "Southampton, UK" },
-  { name: "photo2", caption: "©https://www.linkedin.com/in/bhavika19s/ Southampton, UK" },
-  { name: "photo3", caption: "©https://www.linkedin.com/in/bhavika19s/ Southampton, UK" },
-  { name: "photo4", caption: "©https://www.linkedin.com/in/bhavika19s/ Southampton, UK" },
-  { name: "photo5", caption: "©https://www.linkedin.com/in/bhavika19s/ Southampton, UK" },
-  { name: "photo6", caption: "©https://www.linkedin.com/in/bhavika19s/ Southampton, UK" },
+  { name: "photo2", caption: "© https://www.linkedin.com/in/bhavika19s/ ;Southampton, UK" },
+  { name: "photo3", caption: "© https://www.linkedin.com/in/bhavika19s/ ;Southampton, UK" },
+  { name: "photo4", caption: "© https://www.linkedin.com/in/bhavika19s/ ;Southampton, UK" },
+  { name: "photo5", caption: "© https://www.linkedin.com/in/bhavika19s/ ;Southampton, UK" },
+  { name: "photo6", caption: "© https://www.linkedin.com/in/bhavika19s/ ;Southampton, UK" },
   { name: "photo7", caption: "Southampton, UK" },
   { name: "photo8", caption: "Southampton, UK" },
   { name: "photo11", caption: "Southampton, UK" },
@@ -125,7 +130,7 @@ const images = [
   { name: "photo27", caption: "Southampton, UK" }
 ];
 
-// Detect .jpg or .JPG
+// Detect .jpg or .JPG dynamically
 function resolveImage(name) {
   const lower = name + ".jpg";
   const upper = name + ".JPG";
