@@ -92,20 +92,40 @@ h1 {
 
 <div id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
-  <p id="lightbox-caption">Southampton, UK</p>
+  <p id="lightbox-caption"></p>
 </div>
 
 <script>
-// List only the base names (without extensions)
-const rawImages = [
-  "photo1","photo2","photo3","photo4","photo5",
-  "photo6","photo7","photo8","photo11","photo12",
-  "photo13","photo14","photo15","photo16","photo17",
-  "photo18","photo19","photo20","photo21","photo22",
-  "photo23","photo24","photo25","photo26","photo27"
+// Each image with same caption for now
+const images = [
+  { name: "photo1", caption: "Southampton, UK" },
+  { name: "photo2", caption: "Southampton, UK" },
+  { name: "photo3", caption: "Southampton, UK" },
+  { name: "photo4", caption: "Southampton, UK" },
+  { name: "photo5", caption: "Southampton, UK" },
+  { name: "photo6", caption: "Southampton, UK" },
+  { name: "photo7", caption: "Southampton, UK" },
+  { name: "photo8", caption: "Southampton, UK" },
+  { name: "photo11", caption: "Southampton, UK" },
+  { name: "photo12", caption: "Southampton, UK" },
+  { name: "photo13", caption: "Southampton, UK" },
+  { name: "photo14", caption: "Southampton, UK" },
+  { name: "photo15", caption: "Southampton, UK" },
+  { name: "photo16", caption: "Southampton, UK" },
+  { name: "photo17", caption: "Southampton, UK" },
+  { name: "photo18", caption: "Southampton, UK" },
+  { name: "photo19", caption: "Southampton, UK" },
+  { name: "photo20", caption: "Southampton, UK" },
+  { name: "photo21", caption: "Southampton, UK" },
+  { name: "photo22", caption: "Southampton, UK" },
+  { name: "photo23", caption: "Southampton, UK" },
+  { name: "photo24", caption: "Southampton, UK" },
+  { name: "photo25", caption: "Southampton, UK" },
+  { name: "photo26", caption: "Southampton, UK" },
+  { name: "photo27", caption: "Southampton, UK" }
 ];
 
-// Function to check if .jpg exists, else fall back to .JPG
+// Detect .jpg or .JPG
 function resolveImage(name) {
   const lower = name + ".jpg";
   const upper = name + ".JPG";
@@ -122,13 +142,13 @@ function resolveImage(name) {
 const gallery = document.getElementById("gallery");
 
 async function loadGallery() {
-  for (let name of rawImages) {
-    const src = await resolveImage(name);
+  for (let item of images) {
+    const src = await resolveImage(item.name);
 
     gallery.innerHTML += `
-      <div class="card" onclick="openLightbox('${src}', 'Southampton, UK')">
+      <div class="card" onclick="openLightbox('${src}', '${item.caption}')">
         <img src="${src}">
-        <div class="caption">Southampton, UK</div>
+        <div class="caption">${item.caption}</div>
       </div>
     `;
   }
